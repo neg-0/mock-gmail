@@ -2,7 +2,7 @@ const EmailDetail = ({ email }) => {
     return (
         <div>
             <h3>{email.subject}</h3>
-            <h4>Sender: {email.sender} | Recipient: {email.recipient}</h4>
+            <h5>Sender: {email.sender} | Recipient: {email.recipient}</h5>
             <p>{email.message}</p>
         </div>
     )
