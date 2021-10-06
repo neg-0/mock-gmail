@@ -1,4 +1,4 @@
-import { Modal, Button, Container, Form, Alert } from 'react-bootstrap'
+import { Modal, Button, Container, Form, Alert, Col, Row } from 'react-bootstrap'
 import { Component, useState } from 'react'
 
 class ReplyPopup extends Component {
@@ -26,12 +26,27 @@ class ReplyPopup extends Component {
     }
 
     setShow(show) {
-        this.setState({ showModal: show, replyCallbackStatus: "", replyCallbackMessage: "", replyMessage: "" })
+        this.setState({
+            showModal: show,
+            replyCallbackStatus: "",
+            replyCallbackMessage: "",
+            replyMessage: "",
+            replySubject: "RE: " + this.state.email.subject,
+            replySender: this.state.email.recipient,
+            replyRecipient: this.state.email.sender
+        })
     }
 
     handleChange(event) {
         switch (event.target.id) {
+            case "replySubject": this.setState({ replySubject: event.target.value })
+                break
             case "replyMessage": this.setState({ replyMessage: event.target.value })
+                break
+            case "replySender": this.setState({ replySender: event.target.value })
+                break
+            case "replyRecipient": this.setState({ replyRecipient: event.target.value })
+                break
         }
 
         this.setState({ value: event.target.value });
@@ -57,9 +72,9 @@ class ReplyPopup extends Component {
         console.log("sending email")
 
         let emailObj = {
-            sender: this.email.recipient,
-            recipient: this.email.sender,
-            subject: this.email.subject,
+            sender: this.state.replySender,
+            recipient: this.state.replyRecipient,
+            subject: this.state.replySubject,
             message: this.state.replyMessage,
             date: Date.now(),
             id: this.email.id + 1000
@@ -104,12 +119,42 @@ class ReplyPopup extends Component {
 
                 <Modal size="lg" show={this.state.showModal} onHide={this.hideModal}>
                     <Modal.Header closeButton>
-                        <Modal.Title>Replying to: {this.state.email.subject}</Modal.Title>
+                        <Container fluid >
+                            <Modal.Title>
+                                <i>Replying to</i> {this.state.email.subject}
+
+                            </Modal.Title>
+                        </Container>
                     </Modal.Header>
                     <Modal.Body>
                         <Container fluid>
                             <Form onSubmit={this.app.sendEmail} >
-                                <Form.Control id="replyMessage" value={this.state.replyMessage} onChange={this.handleChange} as="textarea" rows={3} />
+                                <Row>
+                                    <Form.Label style={{ width: "100%" }}>
+                                        Subject:
+                                        <Form.Control id="replySubject" value={this.state.replySubject} onChange={this.handleChange} />
+                                    </Form.Label>
+                                </Row>
+                                <Row>
+                                    <Col>
+                                        <Form.Label>
+                                            Sender:
+                                            <Form.Control id="replySender" value={this.state.replySender} onChange={this.handleChange} />
+                                        </Form.Label>
+                                    </Col>
+                                    <Col>
+                                        <Form.Label>
+                                            Recipient:
+                                            <Form.Control id="replyRecipient" value={this.state.replyRecipient} onChange={this.handleChange} />
+                                        </Form.Label>
+                                    </Col>
+                                </Row>
+                                <Row>
+                                    <Form.Label>
+                                        Body:
+                                        <Form.Control id="replyMessage" value={this.state.replyMessage} onChange={this.handleChange} as="textarea" rows={3} />
+                                    </Form.Label>
+                                </Row>
                             </Form>
                         </Container>
                     </Modal.Body>
