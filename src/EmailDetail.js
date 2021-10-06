@@ -1,7 +1,9 @@
-const EmailDetail = ({ email }) => {
+import ReplyPopup from "./ReplyPopup"
+
+const EmailDetail = ({ app, email }) => {
     return (
         <div>
-            <h3>{email.subject}</h3>
+            <h3>{email.subject}</h3> <ReplyPopup app={app} email={email} />
             <h5>Sender: {email.sender} | Recipient: {email.recipient}</h5>
             <p>{email.message}</p>
         </div>

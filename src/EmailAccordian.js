@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Accordion } from "react-bootstrap";
 import EmailDetail from "./EmailDetail"
 
-const EmailAccordian = ({ emails }) => {
+const EmailAccordian = ({ app, emails }) => {
 
     let renderEmails = !emails ? <p>Loading emails</p> :
         emails.map((email, index) => {
@@ -10,7 +10,7 @@ const EmailAccordian = ({ emails }) => {
                 <Accordion.Item eventKey={index}>
                     <Accordion.Header>{email.subject} - {email.sender}</Accordion.Header>
                     <Accordion.Body>
-                        <EmailDetail email={email} />
+                        <EmailDetail app={app} email={email} />
                     </Accordion.Body>
                 </Accordion.Item>
             )

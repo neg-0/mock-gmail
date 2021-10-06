@@ -3,6 +3,7 @@ import './App.css';
 import React, { Component } from 'react'
 import EmailAccordian from './EmailAccordian'
 import NavBar from './NavBar'
+import ReplyPopup from './ReplyPopup';
 const url = "http://localhost:3001"
 
 class App extends Component {
@@ -46,9 +47,28 @@ class App extends Component {
     let json = await response.json()
 
     this.setState({ emails: json })
-    console.log(json)
   }
 
+  async sendEmail(emailObject, callback) {
+    console.log("Email object", emailObject)
+
+    let xhr = new XMLHttpRequest();
+    xhr.open("POST", `${url}/send`, true);
+    xhr.setRequestHeader('Content-Type', 'application/json');
+    xhr.send(JSON.stringify(emailObject));
+
+    xhr.onreadystatechange = function () {
+      if (this.readyState != 4) return;
+
+      if (this.status == 200) {
+        let response = JSON.parse(this.responseText);
+
+        if (callback) {
+          callback(response)
+        }
+      }
+    };
+  }
 
   render() {
     return (
@@ -57,7 +77,7 @@ class App extends Component {
           <NavBar app={this} />
         </header>
         <main>
-          <EmailAccordian emails={this.state.filteredEmails} />
+          <EmailAccordian app={this} emails={this.state.filteredEmails} />
         </main>
       </div>
     );
