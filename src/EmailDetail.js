@@ -1,10 +1,15 @@
 import ReplyPopup from "./ReplyPopup"
 
 const EmailDetail = ({ app, email }) => {
+
+    let date = new Date(email.date)
+
     return (
         <div>
             <h3>{email.subject}</h3> <ReplyPopup app={app} email={email} />
             <h5>Sender: {email.sender} | Recipient: {email.recipient}</h5>
+            <h6>On {date.toLocaleDateString("en-US")} at {date.toLocaleTimeString("en-US")}</h6>
+            <hr />
             <p>{email.message}</p>
         </div>
     )
