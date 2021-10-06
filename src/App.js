@@ -60,13 +60,12 @@ class App extends Component {
     xhr.onreadystatechange = function () {
       if (this.readyState != 4) return;
 
-      if (this.status == 200) {
-        let response = JSON.parse(this.responseText);
+      let response = JSON.parse(this.responseText);
 
-        if (callback) {
-          callback(response)
-        }
+      if (callback) {
+        callback(response)
       }
+
     };
   }
 
