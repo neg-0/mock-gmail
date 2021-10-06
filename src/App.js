@@ -4,6 +4,12 @@ import React, { Component } from 'react'
 const url = "http://localhost:3001"
 
 class App extends Component {
+  constructor() {
+    super()
+    this.state = {
+      emails: []
+    }
+  }
 
 
   componentDidMount() {
@@ -14,27 +20,25 @@ class App extends Component {
     let response = await fetch(`${url}/emails`)
     let json = await response.json()
 
+    this.setState({ emails: json })
     console.log(json)
   }
 
 
   render() {
+
+    let renderEmails = !this.state.emails ? <p>Loading emails</p> :
+      this.state.emails.map((email) => {
+        return (
+          <p>{email.subject} - {email.sender}</p>
+        )
+      })
+
     return (
       <div className="App" >
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
+        <main>
+          {renderEmails}
+        </main>
       </div>
     );
   }
