@@ -1,6 +1,7 @@
-import logo from './logo.svg';
+import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 import React, { Component } from 'react'
+import EmailAccordian from './EmailAccordian'
 const url = "http://localhost:3001"
 
 class App extends Component {
@@ -26,18 +27,10 @@ class App extends Component {
 
 
   render() {
-
-    let renderEmails = !this.state.emails ? <p>Loading emails</p> :
-      this.state.emails.map((email) => {
-        return (
-          <p>{email.subject} - {email.sender}</p>
-        )
-      })
-
     return (
       <div className="App" >
         <main>
-          {renderEmails}
+          <EmailAccordian emails={this.state.emails} />
         </main>
       </div>
     );
