@@ -5,9 +5,9 @@ import EmailDetail from "./EmailDetail"
 const EmailAccordian = ({ app, emails }) => {
 
     let renderEmails = !emails ? <p>Loading emails</p> :
-        emails.map((email, index) => {
+        emails.map((email) => {
             return (
-                <Accordion.Item eventKey={index}>
+                <Accordion.Item eventKey={email.id}>
                     <Accordion.Header>{email.subject} - {email.sender}</Accordion.Header>
                     <Accordion.Body>
                         <EmailDetail app={app} email={email} />
